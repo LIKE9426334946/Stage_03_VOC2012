@@ -20,7 +20,7 @@ class VOCTransform:
         mask = tv_tensors.Mask(F.pil_to_tensor(mask))
         image, mask = self.resize(image, mask)
         image = F.convert_image_dtype(image, torch.float32)
-        mask = mask.squeeze(0).long()
+        mask = mask.squeeze(0).long()  # uint8->int64
         return image, mask
 
 
@@ -41,13 +41,11 @@ def build_loaders(config):
         transforms=transform,
         download=False,
     )
-    train_subset = Subset(train_dataset, range(20))
-    val_subset = Subset(val_dataset, range(10))
 
     train_loader = DataLoader(
-        train_subset, loader_cfg["batch_size"], shuffle=True, num_workers=0
+        train_dataset, loader_cfg["batch_size"], shuffle=True, num_workers=0
     )
     val_loader = DataLoader(
-        val_subset, loader_cfg["batch_size"], shuffle=False, num_workers=0
+        val_dataset, loader_cfg["batch_size"], shuffle=False, num_workers=0
     )
     return train_loader, val_loader
