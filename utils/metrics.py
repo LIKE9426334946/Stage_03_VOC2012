@@ -7,7 +7,7 @@ class SegmentationMetrics:
         self.num_classes = num_classes
         self.ignore_index = ignore_index
         self.stats = [
-            torch.zeros((1, num_classes), dtype=torch.long(), device=device)
+            torch.zeros((1, num_classes), dtype=torch.long, device=device)
             for _ in range(4)
         ]
 
@@ -21,7 +21,7 @@ class SegmentationMetrics:
             ignore_index=self.ignore_index,
         )
         for total, batch in zip(self.stats, batch_stats):
-            torch += batch.sum(dim=0, keepdim=True).to(total.device)
+            total += batch.sum(dim=0, keepdim=True).to(total.device)
 
     def compute(self):
         functions = {

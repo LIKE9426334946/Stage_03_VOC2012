@@ -30,7 +30,7 @@ def run_epoch(
         valid_pixels = (masks != ignore_index).sum()
 
         if training:
-            optimizer.zero_grad(set_to_None=True)
+            optimizer.zero_grad(set_to_none=True)
         with torch.set_grad_enabled(training):
             logits = model(images)
             loss_sum = criterion(logits, masks)
@@ -106,7 +106,7 @@ def main():
             if_best = val_result["miou"] > best_miou
             best_miou = max(best_miou, val_result["miou"])
             if if_best:
-                torch.save(model.state_dict(), "best.pth")
+                torch.save(model.state_dict(), output_dir / "best.pth")
 
             print(
                 f"Epoch {epoch}/{config["training"]['epochs']} | "

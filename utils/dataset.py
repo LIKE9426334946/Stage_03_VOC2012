@@ -38,7 +38,7 @@ def build_loaders(config):
         root=r"D:\04_Datasets\VOCtrainval_11-May-2012",
         year="2012",
         image_set="val",
-        transform=transform,
+        transforms=transform,
         download=False,
     )
     train_subset = Subset(train_dataset, range(20))
