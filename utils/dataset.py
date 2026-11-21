@@ -10,9 +10,7 @@ from torchvision.transforms import functional as F
 
 class VOCTransform:
     def __init__(self):
-        self.resize = T.Resize(
-            size=(256, 256), interpolation=InterpolationMode.BILINEAR
-        )
+        self.resize = T.Resize(size=(256, 256), interpolation=InterpolationMode.BILINEAR)
 
     def __call__(self, image, mask):
 
@@ -32,20 +30,16 @@ def build_loaders(config):
         year="2012",
         image_set="train",
         transforms=transform,
-        download=False,
+        download=True,
     )
     val_dataset = VOCSegmentation(
         root=r"D:\04_Datasets\VOCtrainval_11-May-2012",
         year="2012",
         image_set="val",
         transforms=transform,
-        download=False,
+        download=True,
     )
 
-    train_loader = DataLoader(
-        train_dataset, loader_cfg["batch_size"], shuffle=True, num_workers=0
-    )
-    val_loader = DataLoader(
-        val_dataset, loader_cfg["batch_size"], shuffle=False, num_workers=0
-    )
+    train_loader = DataLoader(train_dataset, loader_cfg["batch_size"], shuffle=True, num_workers=0)
+    val_loader = DataLoader(val_dataset, loader_cfg["batch_size"], shuffle=False, num_workers=0)
     return train_loader, val_loader
