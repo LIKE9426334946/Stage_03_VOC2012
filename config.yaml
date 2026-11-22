@@ -8,5 +8,9 @@ training:
   learning_rate: 0.001
   output_dir: ./runs/
 
+dataset:
+  in_channels: 3
+  out_channels: 21
+
 metrics:
   reduction: macro

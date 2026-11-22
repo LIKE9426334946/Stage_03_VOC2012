@@ -8,9 +8,7 @@ from torch.nn import functional as F
 class BasicBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=1):
         super().__init__()
-        self.conv1 = nn.Conv2d(
-            in_channels, out_channels, kernel_size=3, stride=stride, padding=1
-        )
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1)
         self.bn1 = nn.BatchNorm2d(out_channels)
         self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1)
         self.bn2 = nn.BatchNorm2d(out_channels)
@@ -67,12 +65,8 @@ class SelfModel_01(nn.Module):
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
         self.layer1 = nn.Sequential(BasicBlock(64, 64), BasicBlock(64, 64))
         self.layer2 = nn.Sequential(BasicBlock(64, 128, stride=2), BasicBlock(128, 128))
-        self.layer3 = nn.Sequential(
-            BasicBlock(128, 256, stride=2), BasicBlock(256, 256)
-        )
-        self.layer4 = nn.Sequential(
-            BasicBlock(256, 512, stride=2), BasicBlock(512, 512)
-        )
+        self.layer3 = nn.Sequential(BasicBlock(128, 256, stride=2), BasicBlock(256, 256))
+        self.layer4 = nn.Sequential(BasicBlock(256, 512, stride=2), BasicBlock(512, 512))
 
         self.up4 = DecoderBlock(512, 256, 256)
         self.up3 = DecoderBlock(256, 128, 128)
