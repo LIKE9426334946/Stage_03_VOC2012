@@ -3,9 +3,12 @@ import segmentation_models_pytorch as smp
 
 
 class SegmentationMetrics:
-    def __init__(self, num_classes, ignore_index, device):
+    def __init__(self, num_classes, ignore_index, device, reduction="macro"):
+        if reduction not in {"macro", "micro"}:
+            raise ValueError("metrics.reduction 必须为 macro 或 micro，指标按整个数据集累计")
         self.num_classes = num_classes
         self.ignore_index = ignore_index
+        self.reduction = reduction
         self.stats = [
             torch.zeros((1, num_classes), dtype=torch.long, device=device)
             for _ in range(4)
@@ -25,12 +28,15 @@ class SegmentationMetrics:
 
     def compute(self):
         functions = {
-            "miou": smp.metrics.iou_score,
             "f1": smp.metrics.f1_score,
             "precision": smp.metrics.precision,
             "recall": smp.metrics.recall,
         }
-        return {
-            name: function(*self.stats, reduction="macro", zero_division=0.0).item()
+        scores = {
+            name: function(*self.stats, reduction=self.reduction, zero_division=0.0).item()
             for name, function in functions.items()
         }
+        scores["miou"] = smp.metrics.iou_score(
+            *self.stats, reduction="macro", zero_division=0.0
+        ).item()
+        return scores

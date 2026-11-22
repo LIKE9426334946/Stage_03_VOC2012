@@ -115,7 +115,7 @@ class SelfModel_03(nn.Module):
 
 
 if __name__ == "__main__":
-    model = SelfModel_03(in_channels=3, classes=1)
+    model = SelfModel_03(in_channels=3, out_channels=1)
 
     x = torch.randn(2, 3, 256, 256)
 

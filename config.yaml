@@ -9,8 +9,20 @@ training:
   output_dir: ./runs/
 
 dataset:
+  # 数据目录包含解压后的 VOCdevkit。需要下载时将 download 设为 true。
+  root: 'D:\04_Datasets\VOCtrainval_11-May-2012'
+  download: false
   in_channels: 3
   out_channels: 21
+  image_size: 256  # 使用 32 的倍数可兼容所有模型
+  augmentation:
+    enabled: true
+    scale_range: [0.8, 1.25]  # 相对于目标短边，保持宽高比
+    horizontal_flip_p: 0.5
+    rotation_degrees: 10
+    rotation_p: 0.2
+    color_jitter_p: 0.8
+    blur_p: 0.1
 
 metrics:
-  reduction: macro
+  reduction: macro  # F1、Precision、Recall 可选 macro 或 micro，mIoU 始终按类别平均
