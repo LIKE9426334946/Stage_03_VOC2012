@@ -11,7 +11,7 @@ training:
 dataset:
   # 数据目录包含解压后的 VOCdevkit。需要下载时将 download 设为 true。
   root: 'D:\04_Datasets\VOCtrainval_11-May-2012'
-  download: false
+  download: true
   in_channels: 3
   out_channels: 21
   image_size: 256  # 使用 32 的倍数可兼容所有模型
